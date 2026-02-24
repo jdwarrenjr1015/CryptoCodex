@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CryptoCodex — Learn to Trade with Precision</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --clr-base: #0A0B0E;
+      --clr-surface: #111318;
+      --clr-elevated: #181B22;
+      --clr-float: #1F2330;
+      --clr-border: rgba(200, 169, 110, 0.12);
+      --clr-border-strong: rgba(200, 169, 110, 0.28);
+      --clr-amber: #C8A96E;
+      --clr-amber-dim: #8B6B35;
+      --clr-amber-bright: #E8C87A;
+      --clr-text: #F0EBE0;
+      --clr-text-muted: rgba(240, 235, 224, 0.45);
+      --clr-text-dim: rgba(240, 235, 224, 0.22);
+      --clr-green: #4E9B6F;
+      --clr-green-bright: #6DBE8C;
+      --clr-red: #B85450;
+      --clr-red-bright: #D97070;
+      --sp-1: 4px;
+      --sp-2: 8px;
+      --sp-3: 12px;
+      --sp-4: 16px;
+      --sp-6: 24px;
+      --sp-8: 32px;
+      --sp-12: 48px;
+      --sp-16: 64px;
+      --sp-24: 96px;
+      --sp-32: 128px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--clr-base);
+      color: var(--clr-text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* Typography */
+    .serif { font-family: 'DM Serif Display', serif; }
+    .mono { font-family: 'IBM Plex Mono', monospace; }
+    .sans { font-family: 'IBM Plex Sans', sans-serif; }
+
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+
+    /* ── TICKER TAPE ── */
+    .ticker-wrap {
+      background: var(--clr-surface);
+      border-bottom: 1px solid var(--clr-border);
+      overflow: hidden;
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-inner {
+      display: flex;
+      gap: 0;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 28px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--clr-text-muted);
+      border-right: 1px solid var(--clr-border);
+    }
+    .ticker-item .sym { color: var(--clr-amber); }
+    .ticker-item .up { color: var(--clr-green-bright); }
+    .ticker-item .dn { color: var(--clr-red-bright); }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 11, 14, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--clr-border);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--sp-8);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--clr-amber);
+    }
+    .logo span { color: var(--clr-text-muted); font-weight: 300; }
+    .nav-links {
+      display: flex;
+      gap: var(--sp-8);
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      text-decoration: none;
+      padding: var(--sp-2) var(--sp-3);
+      border: 1px solid transparent;
+      transition: color 0.22s ease, border-color 0.22s ease;
+    }
+    .nav-links a:hover {
+      color: var(--clr-amber);
+      border-color: var(--clr-border-strong);
+    }
+    .nav-links a:focus-visible {
+      outline: 2px solid var(--clr-amber);
+      outline-offset: 2px;
+    }
+    .nav-cta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--clr-base);
+      background: var(--clr-amber);
+      padding: var(--sp-2) var(--sp-6);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 2px 16px rgba(200, 169, 110, 0.25), 0 1px 4px rgba(200, 169, 110, 0.15);
+    }
+    .nav-cta:hover { background: var(--clr-amber-bright); }
+    .nav-cta:active { opacity: 0.85; }
+    .nav-cta:focus-visible { outline: 2px solid var(--clr-amber-bright); outline-offset: 3px; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      padding: var(--sp-32) var(--sp-8) var(--sp-24);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 65% 40%, rgba(200, 169, 110, 0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 50% at 20% 70%, rgba(78, 155, 111, 0.05) 0%, transparent 65%),
+        radial-gradient(ellipse 80% 80% at 50% 0%, rgba(200, 169, 110, 0.04) 0%, transparent 60%);
+    }
+    /* Animated chart lines in background */
+    .hero-chart {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52%;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--clr-amber);
+      border: 1px solid var(--clr-border-strong);
+      padding: var(--sp-1) var(--sp-3);
+      margin-bottom: var(--sp-8);
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--clr-green-bright);
+      box-shadow: 0 0 6px var(--clr-green-bright);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .hero h1 {
+      font-size: clamp(52px, 8vw, 108px);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--clr-text);
+      max-width: 720px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.25s forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--clr-amber);
+    }
+    .hero-sub {
+      margin-top: var(--sp-8);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      max-width: 480px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.4s forwards;
+    }
+    .hero-actions {
+      margin-top: var(--sp-12);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-6);
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.55s forwards;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--clr-amber);
+      color: var(--clr-base);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow:
+        0 4px 24px rgba(200, 169, 110, 0.3),
+        0 1px 6px rgba(200, 169, 110, 0.2),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+      transition: background 0.2s ease, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+    .btn-primary:hover {
+      background: var(--clr-amber-bright);
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 32px rgba(200, 169, 110, 0.4),
+        0 2px 8px rgba(200, 169, 110, 0.25);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:focus-visible { outline: 2px solid var(--clr-amber-bright); outline-offset: 3px; }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--clr-text-muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 14px 4px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 1px solid var(--clr-border-strong);
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .btn-ghost:hover { color: var(--clr-text); border-color: var(--clr-amber); }
+    .btn-ghost:focus-visible { outline: 2px solid var(--clr-amber); outline-offset: 3px; }
+
+    .hero-stats {
+      display: flex;
+      gap: var(--sp-12);
+      margin-top: var(--sp-24);
+      padding-top: var(--sp-8);
+      border-top: 1px solid var(--clr-border);
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.7s forwards;
+    }
+    .hero-stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      color: var(--clr-text);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .hero-stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      margin-top: 4px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: var(--sp-32) var(--sp-8); }
+    .section-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--clr-amber);
+      margin-bottom: var(--sp-4);
+    }
+    .section-title {
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--clr-text);
+      max-width: 680px;
+    }
+    .section-title em { font-style: italic; color: var(--clr-amber); }
+    .section-desc {
+      margin-top: var(--sp-6);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      max-width: 480px;
+      line-height: 1.9;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--clr-amber) 0%, rgba(200,169,110,0.1) 60%, transparent 100%);
+      width: 120px;
+      margin: var(--sp-6) 0;
+    }
+
+    /* ── CONCEPTS SECTION ── */
+    #concepts { background: var(--clr-surface); }
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--clr-border);
+      margin-top: var(--sp-16);
+      border: 1px solid var(--clr-border);
+    }
+    .concept-card {
+      background: var(--clr-surface);
+      padding: var(--sp-8);
+      transition: background 0.22s ease;
+      cursor: default;
+    }
+    .concept-card:hover { background: var(--clr-elevated); }
+    .concept-card:focus-visible { outline: 2px solid var(--clr-amber); outline-offset: -2px; }
+    .concept-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      color: var(--clr-text-dim);
+      margin-bottom: var(--sp-6);
+    }
+    .concept-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--clr-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--sp-6);
+      font-size: 18px;
+    }
+    .concept-card h3 {
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      color: var(--clr-text);
+      margin-bottom: var(--sp-3);
+    }
+    .concept-card p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.8;
+    }
+    .concept-tag {
+      display: inline-block;
+      margin-top: var(--sp-6);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border: 1px solid var(--clr-border-strong);
+      color: var(--clr-amber-dim);
+    }
+    .concept-tag.beginner { border-color: rgba(78,155,111,0.3); color: var(--clr-green); }
+    .concept-tag.intermediate { border-color: var(--clr-border-strong); color: var(--clr-amber-dim); }
+    .concept-tag.advanced { border-color: rgba(184,84,80,0.3); color: var(--clr-red); }
+
+    /* ── CANDLESTICK SECTION ── */
+    #charts {
+      background: var(--clr-base);
+      position: relative;
+      overflow: hidden;
+    }
+    #charts::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 80% 50%, rgba(200, 169, 110, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .charts-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-16);
+      margin-top: var(--sp-16);
+      align-items: start;
+    }
+    .candle-demo {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      padding: var(--sp-8);
+      position: relative;
+    }
+    .candle-demo-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--clr-text-dim);
+      margin-bottom: var(--sp-6);
+    }
+    .candle-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 180px;
+      padding: var(--sp-4) 0;
+      border-bottom: 1px solid var(--clr-border);
+    }
+    .candle-col { display: flex; flex-direction: column; align-items: center; flex: 1; height: 100%; justify-content: flex-end; }
+    .wick { width: 1px; background: var(--clr-text-muted); }
+    .candle-body { width: 70%; border-radius: 0; }
+    .candle-up .candle-body { background: var(--clr-green); }
+    .candle-dn .candle-body { background: var(--clr-red); }
+    .candle-up .wick { background: var(--clr-green); }
+    .candle-dn .wick { background: var(--clr-red); }
+    .candle-x-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      color: var(--clr-text-dim);
+      margin-top: 6px;
+      letter-spacing: 0.05em;
+    }
+    .candle-legend {
+      display: flex;
+      gap: var(--sp-6);
+      margin-top: var(--sp-6);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--clr-text-muted);
+    }
+    .legend-dot {
+      width: 8px;
+      height: 12px;
+    }
+    .legend-dot.up { background: var(--clr-green); }
+    .legend-dot.dn { background: var(--clr-red); }
+
+    .chart-explainer { }
+    .explainer-item {
+      border-left: 2px solid var(--clr-border);
+      padding: var(--sp-4) var(--sp-6);
+      margin-bottom: var(--sp-6);
+      transition: border-color 0.22s ease;
+    }
+    .explainer-item:hover { border-color: var(--clr-amber); }
+    .explainer-item h4 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--clr-text);
+      margin-bottom: 4px;
+    }
+    .explainer-item p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.8;
+    }
+
+    /* ── PATTERNS SECTION ── */
+    #patterns { background: var(--clr-surface); }
+    .patterns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--sp-4);
+      margin-top: var(--sp-16);
+    }
+    .pattern-card {
+      background: var(--clr-elevated);
+      border: 1px solid var(--clr-border);
+      padding: var(--sp-6);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+      cursor: default;
+    }
+    .pattern-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--clr-border-strong);
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.4),
+        0 4px 12px rgba(200,169,110,0.08);
+    }
+    .pattern-card:focus-visible { outline: 2px solid var(--clr-amber); outline-offset: 2px; }
+    .pattern-signal {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      margin-bottom: var(--sp-4);
+      display: inline-block;
+    }
+    .signal-bullish { background: rgba(78,155,111,0.15); color: var(--clr-green-bright); border: 1px solid rgba(78,155,111,0.25); }
+    .signal-bearish { background: rgba(184,84,80,0.15); color: var(--clr-red-bright); border: 1px solid rgba(184,84,80,0.25); }
+    .signal-neutral { background: rgba(200,169,110,0.1); color: var(--clr-amber); border: 1px solid var(--clr-border-strong); }
+    .pattern-card h4 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--clr-text);
+      margin-bottom: var(--sp-3);
+      letter-spacing: -0.01em;
+    }
+    .pattern-card p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.7;
+    }
+    .pattern-viz {
+      height: 48px;
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      margin-bottom: var(--sp-4);
+      opacity: 0.8;
+    }
+    .pv-bar {
+      flex: 1;
+      min-width: 6px;
+      background: var(--clr-green);
+      border-radius: 1px 1px 0 0;
+    }
+    .pv-bar.dn { background: var(--clr-red); }
+
+    /* ── GLOSSARY ── */
+    #glossary { background: var(--clr-base); }
+    .glossary-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: var(--sp-16);
+      margin-top: var(--sp-16);
+      align-items: start;
+    }
+    .glossary-index {
+      position: sticky;
+      top: 80px;
+    }
+    .glossary-letter {
+      font-family: 'DM Serif Display', serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--clr-text-dim);
+      display: block;
+      padding: 2px 0;
+      text-decoration: none;
+      transition: color 0.18s ease;
+    }
+    .glossary-letter:hover { color: var(--clr-amber); }
+    .glossary-letter:focus-visible { outline: 2px solid var(--clr-amber); }
+    .glossary-entries {}
+    .glossary-term {
+      border-bottom: 1px solid var(--clr-border);
+      padding: var(--sp-6) 0;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: var(--sp-8);
+      align-items: baseline;
+    }
+    .glossary-term:hover { }
+    .glossary-term dt {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--clr-text);
+      letter-spacing: -0.01em;
+    }
+    .glossary-term dd {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.8;
+    }
+    .glossary-term dd strong {
+      font-weight: 500;
+      color: var(--clr-amber);
+    }
+
+    /* ── CURRICULUM / LEARNING PATH ── */
+    #learn { background: var(--clr-elevated); }
+    .curriculum-layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--sp-16);
+      margin-top: var(--sp-16);
+      align-items: start;
+    }
+    .curriculum-sidebar h3 {
+      font-size: 28px;
+      letter-spacing: -0.02em;
+      color: var(--clr-text);
+      margin-bottom: var(--sp-4);
+    }
+    .curriculum-sidebar p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.8;
+    }
+    .progress-ring {
+      width: 100px;
+      height: 100px;
+      margin-bottom: var(--sp-8);
+    }
+    .modules {}
+    .module {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      margin-bottom: var(--sp-3);
+      overflow: hidden;
+    }
+    .module-header {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      padding: var(--sp-4) var(--sp-6);
+      cursor: pointer;
+      transition: background 0.18s ease;
+    }
+    .module-header:hover { background: rgba(200,169,110,0.04); }
+    .module-header:focus-visible { outline: 2px solid var(--clr-amber); outline-offset: -2px; }
+    .module-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--clr-amber-dim);
+      width: 36px;
+      flex-shrink: 0;
+    }
+    .module-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--clr-text);
+      flex: 1;
+    }
+    .module-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      flex-shrink: 0;
+    }
+    .badge-done { background: rgba(78,155,111,0.15); color: var(--clr-green-bright); border: 1px solid rgba(78,155,111,0.25); }
+    .badge-active { background: rgba(200,169,110,0.12); color: var(--clr-amber); border: 1px solid var(--clr-border-strong); }
+    .badge-lock { background: transparent; color: var(--clr-text-dim); border: 1px solid var(--clr-border); }
+    .module-lessons {
+      border-top: 1px solid var(--clr-border);
+      padding: var(--sp-3) var(--sp-6) var(--sp-4) calc(var(--sp-4) + 36px + var(--sp-4));
+    }
+    .lesson-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-2) 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--clr-text-muted);
+    }
+    .lesson-check { width: 14px; height: 14px; border: 1px solid var(--clr-border-strong); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 9px; color: var(--clr-green-bright); }
+    .lesson-check.done { background: rgba(78,155,111,0.15); border-color: rgba(78,155,111,0.3); }
+
+    /* ── TOOLS SECTION ── */
+    #tools { background: var(--clr-surface); }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      margin-top: var(--sp-16);
+    }
+    .tool-card {
+      background: var(--clr-base);
+      border: 1px solid var(--clr-border);
+      padding: var(--sp-8);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.22s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .tool-card:hover { border-color: var(--clr-border-strong); transform: translateY(-2px); }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--clr-amber) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+    .tool-card:hover::before { opacity: 1; }
+    .tool-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--clr-text);
+      margin-bottom: var(--sp-3);
+      letter-spacing: -0.01em;
+    }
+    .tool-desc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.8;
+    }
+    .tool-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: var(--sp-6);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--clr-amber);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+      transition: border-color 0.18s ease;
+    }
+    .tool-link:hover { border-color: var(--clr-amber); }
+    .tool-link:focus-visible { outline: 2px solid var(--clr-amber); outline-offset: 3px; }
+
+    /* ── CTA SECTION ── */
+    #cta {
+      background: var(--clr-base);
+      padding: var(--sp-32) var(--sp-8);
+      position: relative;
+      overflow: hidden;
+    }
+    #cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%, rgba(200, 169, 110, 0.08) 0%, transparent 70%);
+    }
+    .cta-inner {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .cta-inner h2 {
+      font-size: clamp(40px, 6vw, 80px);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+    }
+    .cta-inner h2 em { font-style: italic; color: var(--clr-amber); }
+    .cta-inner p {
+      margin-top: var(--sp-6);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.9;
+    }
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: var(--sp-6);
+      margin-top: var(--sp-12);
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--clr-surface);
+      border-top: 1px solid var(--clr-border);
+      padding: var(--sp-12) var(--sp-8);
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-6);
+    }
+    .footer-copy {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--clr-text-dim);
+      letter-spacing: 0.06em;
+    }
+    .footer-links {
+      display: flex;
+      gap: var(--sp-6);
+      list-style: none;
+    }
+    .footer-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--clr-text-dim);
+      text-decoration: none;
+      transition: color 0.18s ease;
+    }
+    .footer-links a:hover { color: var(--clr-amber); }
+    .footer-links a:focus-visible { outline: 2px solid var(--clr-amber); }
+    .footer-disc {
+      width: 100%;
+      margin-top: var(--sp-6);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      font-weight: 300;
+      color: var(--clr-text-dim);
+      line-height: 1.7;
+      border-top: 1px solid var(--clr-border);
+      padding-top: var(--sp-6);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .charts-layout, .glossary-layout, .curriculum-layout { grid-template-columns: 1fr; }
+      .tools-grid { grid-template-columns: 1fr 1fr; }
+      .glossary-index { position: static; display: none; }
+      .glossary-term { grid-template-columns: 1fr; gap: var(--sp-2); }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .tools-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: var(--sp-8); }
+      .concepts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TICKER TAPE -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-inner">
+      <!-- duplicated for seamless loop -->
+      <div class="ticker-item"><span class="sym">BTC/USD</span> 67,420.50 <span class="up">▲ 2.34%</span></div>
+      <div class="ticker-item"><span class="sym">ETH/USD</span> 3,512.80 <span class="up">▲ 1.87%</span></div>
+      <div class="ticker-item"><span class="sym">SOL/USD</span> 182.40 <span class="dn">▼ 0.92%</span></div>
+      <div class="ticker-item"><span class="sym">BNB/USD</span> 598.20 <span class="up">▲ 0.64%</span></div>
+      <div class="ticker-item"><span class="sym">XRP/USD</span> 0.5840 <span class="dn">▼ 1.23%</span></div>
+      <div class="ticker-item"><span class="sym">ADA/USD</span> 0.4920 <span class="up">▲ 3.11%</span></div>
+      <div class="ticker-item"><span class="sym">AVAX/USD</span> 36.80 <span class="dn">▼ 0.45%</span></div>
+      <div class="ticker-item"><span class="sym">DOGE/USD</span> 0.1640 <span class="up">▲ 5.22%</span></div>
+      <div class="ticker-item"><span class="sym">LINK/USD</span> 14.20 <span class="up">▲ 1.09%</span></div>
+      <div class="ticker-item"><span class="sym">MATIC/USD</span> 0.8540 <span class="dn">▼ 2.17%</span></div>
+      <!-- duplicate -->
+      <div class="ticker-item"><span class="sym">BTC/USD</span> 67,420.50 <span class="up">▲ 2.34%</span></div>
+      <div class="ticker-item"><span class="sym">ETH/USD</span> 3,512.80 <span class="up">▲ 1.87%</span></div>
+      <div class="ticker-item"><span class="sym">SOL/USD</span> 182.40 <span class="dn">▼ 0.92%</span></div>
+      <div class="ticker-item"><span class="sym">BNB/USD</span> 598.20 <span class="up">▲ 0.64%</span></div>
+      <div class="ticker-item"><span class="sym">XRP/USD</span> 0.5840 <span class="dn">▼ 1.23%</span></div>
+      <div class="ticker-item"><span class="sym">ADA/USD</span> 0.4920 <span class="up">▲ 3.11%</span></div>
+      <div class="ticker-item"><span class="sym">AVAX/USD</span> 36.80 <span class="dn">▼ 0.45%</span></div>
+      <div class="ticker-item"><span class="sym">DOGE/USD</span> 0.1640 <span class="up">▲ 5.22%</span></div>
+      <div class="ticker-item"><span class="sym">LINK/USD</span> 14.20 <span class="up">▲ 1.09%</span></div>
+      <div class="ticker-item"><span class="sym">MATIC/USD</span> 0.8540 <span class="dn">▼ 2.17%</span></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">Crypto<span>Codex</span></div>
+      <ul class="nav-links">
+        <li><a href="#concepts">Concepts</a></li>
+        <li><a href="#charts">Charts</a></li>
+        <li><a href="#patterns">Patterns</a></li>
+        <li><a href="#glossary">Glossary</a></li>
+        <li><a href="#learn">Curriculum</a></li>
+        <li><a href="#tools">Tools</a></li>
+      </ul>
+      <a href="#learn" class="nav-cta">Start Learning →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+
+    <!-- Background SVG chart -->
+    <svg class="hero-chart" viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <polyline points="0,250 60,200 100,220 150,150 200,180 260,100 300,130 360,80 400,110 450,60 500,90 560,40 600,70" stroke="#C8A96E" stroke-width="1.5" fill="none"/>
+      <polyline points="0,250 60,200 100,220 150,150 200,180 260,100 300,130 360,80 400,110 450,60 500,90 560,40 600,70" stroke="#C8A96E" stroke-width="16" fill="none" opacity="0.04"/>
+      <line x1="0" y1="150" x2="600" y2="150" stroke="#C8A96E" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.3"/>
+      <line x1="0" y1="100" x2="600" y2="100" stroke="#C8A96E" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.2"/>
+      <line x1="0" y1="200" x2="600" y2="200" stroke="#C8A96E" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.2"/>
+    </svg>
+
+    <div class="hero-content">
+      <div class="hero-tag">Live Markets · Education Platform</div>
+
+      <h1>
+        Trade with<br>
+        <em>precision</em> &<br>
+        conviction.
+      </h1>
+
+      <p class="hero-sub">
+        Master crypto trading from first principles. Charts, patterns, risk management, and market psychology — all in one structured curriculum.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#learn" class="btn-primary">
+          Begin Curriculum
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#concepts" class="btn-ghost">
+          Explore Concepts
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">48</div>
+          <div class="hero-stat-label">Lessons</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">12</div>
+          <div class="hero-stat-label">Modules</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">30+</div>
+          <div class="hero-stat-label">Chart Patterns</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">200+</div>
+          <div class="hero-stat-label">Terms Defined</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPTS -->
+  <section id="concepts">
+    <div class="section-inner">
+      <div class="section-label">01 — Core Concepts</div>
+      <h2 class="section-title">The foundations every trader must <em>master</em></h2>
+      <div class="divider"></div>
+      <p class="section-desc">Before touching a chart, understand the rails that crypto runs on. These concepts form the bedrock of every trade you'll ever make.</p>
+
+      <div class="concepts-grid">
+        <div class="concept-card" tabindex="0">
+          <div class="concept-num">01</div>
+          <div class="concept-icon">₿</div>
+          <h3>Blockchain</h3>
+          <p>A distributed ledger that records transactions across thousands of nodes. Immutable, transparent, and censorship-resistant by design.</p>
+          <span class="concept-tag beginner">Beginner</span>
+        </div>
+        <div class="concept-card" tabindex="0">
+          <div class="concept-num">02</div>
+          <div class="concept-icon">🔑</div>
+          <h3>Wallets & Keys</h3>
+          <p>Your private key is your identity. Public keys are your address. Losing your private key means losing your assets — permanently.</p>
+          <span class="concept-tag beginner">Beginner</span>
+        </div>
+        <div class="concept-card" tabindex="0">
+          <div class="concept-num">03</div>
+          <div class="concept-icon">⚡</div>
+          <h3>Market Orders</h3>
+          <p>Market vs. limit vs. stop orders. Understanding execution types is the difference between getting filled at your price or the market's price.</p>
+          <span class="concept-tag beginner">Beginner</span>
+        </div>
+        <div class="concept-card" tabindex="0">
+          <div class="concept-num">04</div>
+          <div class="concept-icon">📊</div>
+          <h3>Liquidity & Spreads</h3>
+          <p>Thin markets move violently. The bid-ask spread reveals real transaction cost. Trading illiquid pairs is a tax on impatience.</p>
+          <span class="concept-tag intermediate">Intermediate</span>
+        </div>
+        <div class="concept-card" tabindex="0">
+          <div class="concept-num">05</div>
+          <div class="concept-icon">⚖️</div>
+          <h3>Leverage & Margin</h3>
+          <p>Leverage amplifies both gains and losses. A 10x position liquidates at a 10% move against you. Understand before you use.</p>
+          <span class="concept-tag intermediate">Intermediate</span>
+        </div>
+        <div class="concept-card" tabindex="0">
+          <div class="concept-num">06</div>
+          <div class="concept-icon">🔄</div>
+          <h3>DeFi & DEXs</h3>
+          <p>Decentralized exchanges use automated market makers (AMMs) instead of order books. Liquidity pools, impermanent loss, and slippage explained.</p>
+          <span class="concept-tag intermediate">Intermediate</span>
+        </div>
+        <div class="concept-card" tabindex="0">
+          <div class="concept-num">07</div>
+          <div class="concept-icon">📉</div>
+          <h3>Derivatives</h3>
+          <p>Futures, options, and perpetual contracts. Derivatives let you speculate on price without holding the underlying asset.</p>
+          <span class="concept-tag advanced">Advanced</span>
+        </div>
+        <div class="concept-card" tabindex="0">
+          <div class="concept-num">08</div>
+          <div class="concept-icon">🧠</div>
+          <h3>On-Chain Analysis</h3>
+          <p>Blockchain data is public. Whale wallets, exchange flows, MVRV ratio, and realized cap give an edge that price alone cannot.</p>
+          <span class="concept-tag advanced">Advanced</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHARTS -->
+  <section id="charts">
+    <div class="section-inner">
+      <div class="section-label">02 — Reading Charts</div>
+      <h2 class="section-title">Candlesticks tell the <em>full story</em></h2>
+      <div class="divider"></div>
+
+      <div class="charts-layout">
+        <div>
+          <div class="candle-demo">
+            <div class="candle-demo-label">BTC/USD · 4H · Sample Data</div>
+            <div class="candle-chart">
+              <!-- Candles: each column = upper-wick + body + lower-wick as flex column -->
+              <div class="candle-col candle-dn" style="justify-content:center; gap:0">
+                <div class="wick" style="height:24px"></div>
+                <div class="candle-body" style="height:32px"></div>
+                <div class="wick" style="height:10px"></div>
+              </div>
+              <div class="candle-col candle-up" style="justify-content:center; gap:0">
+                <div class="wick" style="height:16px"></div>
+                <div class="candle-body" style="height:42px"></div>
+                <div class="wick" style="height:8px"></div>
+              </div>
+              <div class="candle-col candle-dn" style="justify-content:center; gap:0">
+                <div class="wick" style="height:20px"></div>
+                <div class="candle-body" style="height:24px"></div>
+                <div class="wick" style="height:14px"></div>
+              </div>
+              <div class="candle-col candle-up" style="justify-content:center; gap:0">
+                <div class="wick" style="height:10px"></div>
+                <div class="candle-body" style="height:56px"></div>
+                <div class="wick" style="height:6px"></div>
+              </div>
+              <div class="candle-col candle-up" style="justify-content:center; gap:0">
+                <div class="wick" style="height:28px"></div>
+                <div class="candle-body" style="height:38px"></div>
+                <div class="wick" style="height:12px"></div>
+              </div>
+              <div class="candle-col candle-dn" style="justify-content:center; gap:0">
+                <div class="wick" style="height:14px"></div>
+                <div class="candle-body" style="height:18px"></div>
+                <div class="wick" style="height:18px"></div>
+              </div>
+              <div class="candle-col candle-up" style="justify-content:center; gap:0">
+                <div class="wick" style="height:8px"></div>
+                <div class="candle-body" style="height:64px"></div>
+                <div class="wick" style="height:10px"></div>
+              </div>
+              <div class="candle-col candle-up" style="justify-content:center; gap:0">
+                <div class="wick" style="height:32px"></div>
+                <div class="candle-body" style="height:44px"></div>
+                <div class="wick" style="height:8px"></div>
+              </div>
+            </div>
+            <div class="candle-legend">
+              <div class="legend-item"><div class="legend-dot up"></div>Bullish (close > open)</div>
+              <div class="legend-item"><div class="legend-dot dn"></div>Bearish (close < open)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-explainer">
+          <div class="explainer-item" tabindex="0">
+            <h4>The Body</h4>
+            <p>The thick rectangle. Represents the range between open and close price. Green = price rose. Red = price fell. Larger body = stronger conviction from buyers or sellers.</p>
+          </div>
+          <div class="explainer-item" tabindex="0">
+            <h4>The Wicks (Shadows)</h4>
+            <p>Thin lines above and below the body. Upper wick = how high price traded before being rejected. Lower wick = how low price dipped before recovering. Long wicks signal rejection.</p>
+          </div>
+          <div class="explainer-item" tabindex="0">
+            <h4>Open & Close</h4>
+            <p>The open is where price was at the start of the period. Close is where it ended. These two prices define the body and are the most significant reference points on any candle.</p>
+          </div>
+          <div class="explainer-item" tabindex="0">
+            <h4>Timeframes</h4>
+            <p>Each candle represents one time period: 1m, 5m, 15m, 1H, 4H, 1D, 1W. Higher timeframes filter noise. Lower timeframes show detail. Align your analysis across multiple timeframes.</p>
+          </div>
+          <div class="explainer-item" tabindex="0">
+            <h4>Volume</h4>
+            <p>Price moves on high volume are significant. Price moves on low volume are suspect. Always read candlestick patterns in context of the volume bars beneath them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATTERNS -->
+  <section id="patterns">
+    <div class="section-inner">
+      <div class="section-label">03 — Chart Patterns</div>
+      <h2 class="section-title">Recognize what the market is <em>signaling</em></h2>
+      <div class="divider"></div>
+      <p class="section-desc">Patterns don't predict the future — they define high-probability scenarios with clear entry, stop, and target levels.</p>
+
+      <div class="patterns-grid">
+        <div class="pattern-card" tabindex="0">
+          <div class="pattern-viz">
+            <div class="pv-bar dn" style="height:30px"></div>
+            <div class="pv-bar dn" style="height:22px"></div>
+            <div class="pv-bar up" style="height:38px"></div>
+            <div class="pv-bar up" style="height:44px"></div>
+          </div>
+          <div class="pattern-signal signal-bullish">Bullish</div>
+          <h4>Bullish Engulfing</h4>
+          <p>A large green candle fully engulfs the prior red candle. Signals reversal after a downtrend. High probability at key support levels.</p>
+        </div>
+        <div class="pattern-card" tabindex="0">
+          <div class="pattern-viz">
+            <div class="pv-bar up" style="height:38px"></div>
+            <div class="pv-bar up" style="height:44px"></div>
+            <div class="pv-bar dn" style="height:32px"></div>
+            <div class="pv-bar dn" style="height:24px"></div>
+          </div>
+          <div class="pattern-signal signal-bearish">Bearish</div>
+          <h4>Bearish Engulfing</h4>
+          <p>A large red candle fully engulfs the prior green candle. Reversal signal after an uptrend. Watch for this at resistance zones.</p>
+        </div>
+        <div class="pattern-card" tabindex="0">
+          <div class="pattern-viz">
+            <div class="pv-bar dn" style="height:40px"></div>
+            <div class="pv-bar dn" style="height:28px"></div>
+            <div class="pv-bar up" style="height:14px"></div>
+            <div class="pv-bar up" style="height:44px"></div>
+          </div>
+          <div class="pattern-signal signal-bullish">Bullish</div>
+          <h4>Morning Star</h4>
+          <p>Three-candle reversal: large red, small indecisive body, large green. The "star" is the small middle candle representing equilibrium.</p>
+        </div>
+        <div class="pattern-card" tabindex="0">
+          <div class="pattern-viz">
+            <div class="pv-bar up" style="height:44px"></div>
+            <div class="pv-bar up" style="height:28px"></div>
+            <div class="pv-bar dn" style="height:14px"></div>
+            <div class="pv-bar dn" style="height:40px"></div>
+          </div>
+          <div class="pattern-signal signal-bearish">Bearish</div>
+          <h4>Evening Star</h4>
+          <p>The bearish mirror of Morning Star. Signals exhaustion at the top. Most reliable when the small middle candle gaps above the first.</p>
+        </div>
+        <div class="pattern-card" tabindex="0">
+          <div class="pattern-viz">
+            <div class="pv-bar dn" style="height:42px"></div>
+            <div class="pv-bar dn" style="height:38px"></div>
+            <div class="pv-bar up" style="height:8px"></div>
+            <div class="pv-bar up" style="height:44px"></div>
+          </div>
+          <div class="pattern-signal signal-bullish">Bullish</div>
+          <h4>Hammer</h4>
+          <p>Small body at top, long lower wick. Shows sellers pushed price down but buyers drove it back up. Stronger at defined support.</p>
+        </div>
+        <div class="pattern-card" tabindex="0">
+          <div class="pattern-viz">
+            <div class="pv-bar up" style="height:36px"></div>
+            <div class="pv-bar up" style="height:42px"></div>
+            <div class="pv-bar up" style="height:10px"></div>
+            <div class="pv-bar dn" style="height:36px"></div>
+          </div>
+          <div class="pattern-signal signal-bearish">Bearish</div>
+          <h4>Shooting Star</h4>
+          <p>Small body at bottom, long upper wick. Buyers pushed price up but sellers rejected it. Powerful reversal at resistance with high volume.</p>
+        </div>
+        <div class="pattern-card" tabindex="0">
+          <div class="pattern-viz">
+            <div class="pv-bar up" style="height:32px"></div>
+            <div class="pv-bar up" style="height:38px"></div>
+            <div class="pv-bar up" style="height:36px"></div>
+            <div class="pv-bar up" style="height:40px"></div>
+          </div>
+          <div class="pattern-signal signal-bullish">Bullish</div>
+          <h4>Three White Soldiers</h4>
+          <p>Three consecutive large green candles each closing near the high. Strong momentum signal. Confirms after a period of consolidation.</p>
+        </div>
+        <div class="pattern-card" tabindex="0">
+          <div class="pattern-viz">
+            <div class="pv-bar up" style="height:36px"></div>
+            <div class="pv-bar up" style="height:28px"></div>
+            <div class="pv-bar dn" style="height:20px"></div>
+            <div class="pv-bar dn" style="height:16px"></div>
+          </div>
+          <div class="pattern-signal signal-neutral">Neutral</div>
+          <h4>Doji</h4>
+          <p>Open and close are nearly identical. Represents perfect indecision. Context determines meaning — at support, bullish; at resistance, bearish.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section id="glossary">
+    <div class="section-inner">
+      <div class="section-label">04 — Glossary</div>
+      <h2 class="section-title">The language of <em>markets</em></h2>
+      <div class="divider"></div>
+
+      <div class="glossary-layout">
+        <div class="glossary-index">
+          <div class="section-label" style="margin-bottom:8px">Quick Nav</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span class="glossary-letter">ATH</span><span class="glossary-letter">Bear</span>
+            <span class="glossary-letter">Bull</span><span class="glossary-letter">CEX</span>
+            <span class="glossary-letter">DEX</span><span class="glossary-letter">DYOR</span>
+            <span class="glossary-letter">FOMO</span><span class="glossary-letter">FUD</span>
+            <span class="glossary-letter">HODLing</span><span class="glossary-letter">ICO</span>
+            <span class="glossary-letter">L1/L2</span><span class="glossary-letter">Liquidity</span>
+            <span class="glossary-letter">MACD</span><span class="glossary-letter">RSI</span>
+            <span class="glossary-letter">Slippage</span><span class="glossary-letter">WAGMI</span>
+          </div>
+        </div>
+
+        <dl class="glossary-entries">
+          <div class="glossary-term">
+            <dt>ATH / ATL</dt>
+            <dd>All-Time High / All-Time Low. The highest (or lowest) price an asset has ever traded at. <strong>Key context:</strong> breaking ATH with volume is one of the strongest bullish signals.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Bear Market</dt>
+            <dd>A prolonged downtrend, typically defined as a 20%+ decline from recent highs. Crypto bear markets often see 70–90% drawdowns from peak.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Bull Market</dt>
+            <dd>Sustained upward price momentum. Characterized by rising highs and higher lows. <strong>Key trait:</strong> dips get bought aggressively.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>CEX vs DEX</dt>
+            <dd>Centralized Exchange (Coinbase, Binance) vs Decentralized Exchange (Uniswap, dYdX). CEX requires KYC and holds your funds. DEX is non-custodial and on-chain.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>DYOR</dt>
+            <dd>"Do Your Own Research." The foundational principle of crypto. Never invest based solely on influencer calls or social media hype.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>FOMO</dt>
+            <dd>Fear Of Missing Out. The emotional state that drives buying tops. <strong>Warning signal:</strong> when normies ask what to buy, you're probably near a top.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>FUD</dt>
+            <dd>Fear, Uncertainty, Doubt. Negative sentiment — often spread to suppress price. Distinguishing legitimate concern from coordinated FUD is a critical skill.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Liquidation</dt>
+            <dd>When a leveraged position is forcibly closed by the exchange because losses have consumed the margin. At 10x leverage, a 10% move liquidates you.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>MACD</dt>
+            <dd>Moving Average Convergence Divergence. A momentum indicator that shows the relationship between two EMAs. Signal line crossovers indicate potential trend shifts.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>RSI</dt>
+            <dd>Relative Strength Index (0–100). Above 70 = overbought, below 30 = oversold. <strong>Key insight:</strong> RSI divergence (price vs RSI trend diverging) often precedes reversals.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Slippage</dt>
+            <dd>The difference between expected execution price and actual execution price. Higher in low-liquidity markets. Set slippage tolerance on DEXs carefully — high tolerance enables sandwich attacks.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Support & Resistance</dt>
+            <dd>Price levels where buying (support) or selling (resistance) pressure historically concentrates. Once broken, a resistance level becomes support, and vice versa.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRICULUM -->
+  <section id="learn">
+    <div class="section-inner">
+      <div class="section-label">05 — Curriculum</div>
+      <h2 class="section-title">A structured path from <em>zero to trader</em></h2>
+      <div class="divider"></div>
+
+      <div class="curriculum-layout">
+        <div class="curriculum-sidebar">
+          <svg class="progress-ring" viewBox="0 0 100 100" aria-label="Progress: 2 of 12 modules complete">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(200,169,110,0.1)" stroke-width="4"/>
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#C8A96E" stroke-width="4" stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="220" transform="rotate(-90 50 50)"/>
+            <text x="50" y="46" text-anchor="middle" font-family="DM Serif Display,serif" font-size="22" fill="#F0EBE0">2</text>
+            <text x="50" y="60" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="rgba(240,235,224,0.45)" letter-spacing="0.1em">OF 12</text>
+          </svg>
+
+          <h3>Your Learning Path</h3>
+          <p>Each module builds on the last. Complete in order for best results. Estimated 20–30 min per module.</p>
+        </div>
+
+        <div class="modules">
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button" aria-expanded="true">
+              <div class="module-num">01</div>
+              <div class="module-title">Crypto Fundamentals</div>
+              <div class="module-badge badge-done">Complete</div>
+            </div>
+            <div class="module-lessons">
+              <div class="lesson-item"><div class="lesson-check done">✓</div>What is Bitcoin?</div>
+              <div class="lesson-item"><div class="lesson-check done">✓</div>How Blockchain Works</div>
+              <div class="lesson-item"><div class="lesson-check done">✓</div>Wallets, Keys, Addresses</div>
+              <div class="lesson-item"><div class="lesson-check done">✓</div>Buying Your First Crypto</div>
+            </div>
+          </div>
+
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button" aria-expanded="true">
+              <div class="module-num">02</div>
+              <div class="module-title">Market Structure</div>
+              <div class="module-badge badge-done">Complete</div>
+            </div>
+            <div class="module-lessons">
+              <div class="lesson-item"><div class="lesson-check done">✓</div>Order Books Explained</div>
+              <div class="lesson-item"><div class="lesson-check done">✓</div>Market vs Limit Orders</div>
+              <div class="lesson-item"><div class="lesson-check done">✓</div>Bid-Ask Spread & Fees</div>
+            </div>
+          </div>
+
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button" aria-expanded="true">
+              <div class="module-num">03</div>
+              <div class="module-title">Technical Analysis Basics</div>
+              <div class="module-badge badge-active">In Progress</div>
+            </div>
+            <div class="module-lessons">
+              <div class="lesson-item"><div class="lesson-check done">✓</div>Reading Candlestick Charts</div>
+              <div class="lesson-item"><div class="lesson-check"></div>Support & Resistance Levels</div>
+              <div class="lesson-item"><div class="lesson-check"></div>Trend Lines & Channels</div>
+              <div class="lesson-item"><div class="lesson-check"></div>Volume Analysis</div>
+            </div>
+          </div>
+
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button">
+              <div class="module-num">04</div>
+              <div class="module-title">Candlestick Patterns</div>
+              <div class="module-badge badge-lock">Locked</div>
+            </div>
+          </div>
+
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button">
+              <div class="module-num">05</div>
+              <div class="module-title">Indicators & Oscillators</div>
+              <div class="module-badge badge-lock">Locked</div>
+            </div>
+          </div>
+
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button">
+              <div class="module-num">06</div>
+              <div class="module-title">Risk Management</div>
+              <div class="module-badge badge-lock">Locked</div>
+            </div>
+          </div>
+
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button">
+              <div class="module-num">07</div>
+              <div class="module-title">Trading Psychology</div>
+              <div class="module-badge badge-lock">Locked</div>
+            </div>
+          </div>
+
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button">
+              <div class="module-num">08</div>
+              <div class="module-title">DeFi & On-Chain Analysis</div>
+              <div class="module-badge badge-lock">Locked</div>
+            </div>
+          </div>
+
+          <div class="module">
+            <div class="module-header" tabindex="0" role="button">
+              <div class="module-num">09–12</div>
+              <div class="module-title">Advanced Strategies</div>
+              <div class="module-badge badge-lock">Locked</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section id="tools">
+    <div class="section-inner">
+      <div class="section-label">06 — Essential Tools</div>
+      <h2 class="section-title">The trader's <em>toolkit</em></h2>
+      <div class="divider"></div>
+
+      <div class="tools-grid">
+        <div class="tool-card" tabindex="0">
+          <div class="tool-name">TradingView</div>
+          <div class="tool-desc">The industry standard for charting. Advanced indicators, multi-layout views, alerts, and a massive community of published ideas.</div>
+          <a href="#" class="tool-link" tabindex="0">Learn Setup →</a>
+        </div>
+        <div class="tool-card" tabindex="0">
+          <div class="tool-name">CoinGecko</div>
+          <div class="tool-desc">Comprehensive market data: price, volume, market cap, fully-diluted valuation, and token supply metrics for thousands of assets.</div>
+          <a href="#" class="tool-link" tabindex="0">Explore Data →</a>
+        </div>
+        <div class="tool-card" tabindex="0">
+          <div class="tool-name">Glassnode</div>
+          <div class="tool-desc">On-chain analytics platform. Track whale movements, exchange inflows/outflows, MVRV ratio, SOPR, and realized price.</div>
+          <a href="#" class="tool-link" tabindex="0">On-Chain Guide →</a>
+        </div>
+        <div class="tool-card" tabindex="0">
+          <div class="tool-name">Etherscan</div>
+          <div class="tool-desc">The Ethereum block explorer. Trace any transaction, verify smart contracts, view wallet history, and track gas prices in real time.</div>
+          <a href="#" class="tool-link" tabindex="0">Read Transactions →</a>
+        </div>
+        <div class="tool-card" tabindex="0">
+          <div class="tool-name">DeFiLlama</div>
+          <div class="tool-desc">Total value locked (TVL) across all DeFi protocols. Essential for understanding capital flows between chains and finding yield opportunities.</div>
+          <a href="#" class="tool-link" tabindex="0">Track TVL →</a>
+        </div>
+        <div class="tool-card" tabindex="0">
+          <div class="tool-name">Fear & Greed</div>
+          <div class="tool-desc">The Crypto Fear & Greed Index aggregates volatility, momentum, social sentiment, and dominance into a single market psychology score.</div>
+          <a href="#" class="tool-link" tabindex="0">Check Sentiment →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-inner">
+      <div class="section-label" style="text-align:center;margin-bottom:var(--sp-6)">Ready?</div>
+      <h2>Stop watching.<br>Start <em>trading</em>.</h2>
+      <p>The market doesn't wait. Every day you delay is a day of pattern recognition, risk calibration, and compounding experience you're not building.</p>
+      <div class="cta-actions">
+        <a href="#learn" class="btn-primary">
+          Begin Module 01
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#glossary" class="btn-ghost">Browse Glossary</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="logo">Crypto<span>Codex</span></div>
+      <ul class="footer-links">
+        <li><a href="#concepts">Concepts</a></li>
+        <li><a href="#charts">Charts</a></li>
+        <li><a href="#glossary">Glossary</a></li>
+        <li><a href="#learn">Curriculum</a></li>
+        <li><a href="#tools">Tools</a></li>
+      </ul>
+      <div class="footer-copy">© 2025 CryptoCodex. Educational use only.</div>
+    </div>
+    <div class="footer-inner">
+      <p class="footer-disc">⚠ Disclaimer: This platform is for educational purposes only. Nothing here constitutes financial advice. Cryptocurrency trading involves substantial risk of loss. Never invest more than you can afford to lose. Past performance does not guarantee future results.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
