@@ -1,3 +1,7 @@
 node_modules/
 temporary screenshots/
 *.pdf
+.env.local
+.env*.local
+.next/
+
