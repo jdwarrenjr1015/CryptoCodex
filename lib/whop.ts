@@ -1,50 +1,31 @@
 // Whop API client
-// Docs: https://dev.whop.com/api-reference
+// Docs: https://docs.whop.com/developer/api/getting-started
 
-const WHOP_API_BASE = 'https://api.whop.com/api/v2'
+import { Whop } from '@whop/sdk'
 
-export async function whopFetch(path: string, options: RequestInit = {}) {
-  const res = await fetch(`${WHOP_API_BASE}${path}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${process.env.WHOP_API_KEY}`,
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  })
-
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Whop API error ${res.status}: ${text}`)
-  }
-
-  return res.json()
-}
+export const whopsdk = new Whop({
+  apiKey: process.env.WHOP_API_KEY,
+  webhookKey: btoa(process.env.WHOP_WEBHOOK_SECRET || ''),
+})
 
 /**
- * Create a Whop checkout session.
+ * Create a Whop checkout configuration for an existing plan.
  * Returns a purchase_url to redirect the user to.
  */
 export async function createWhopCheckout({
   planId,
-  email,
   redirectUrl,
   metadata,
 }: {
   planId: string
-  email: string
   redirectUrl: string
   metadata?: Record<string, string>
 }) {
-  const data = await whopFetch('/checkout', {
-    method: 'POST',
-    body: JSON.stringify({
-      plan: planId,
-      email,
-      redirect_url: redirectUrl,
-      metadata: metadata ?? {},
-    }),
+  const checkout = await whopsdk.checkoutConfigurations.create({
+    plan_id: planId,
+    redirect_url: redirectUrl,
+    metadata: metadata ?? {},
   })
 
-  return data as { purchase_url: string; id: string }
+  return checkout
 }

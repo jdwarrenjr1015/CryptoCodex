@@ -20,3 +20,10 @@ CREATE INDEX IF NOT EXISTS idx_profiles_whop_membership_id
 
 CREATE INDEX IF NOT EXISTS idx_subscriptions_whop_membership_id
   ON subscriptions (whop_membership_id);
+
+-- 5. Unique constraint on subscriptions.user_id so the webhook handler's
+--    upsert(..., { onConflict: 'user_id' }) updates the existing row on
+--    repeat deliveries instead of inserting duplicates (Whop webhooks are
+--    at-least-once delivery, not exactly-once).
+ALTER TABLE subscriptions
+  ADD CONSTRAINT subscriptions_user_id_key UNIQUE (user_id);

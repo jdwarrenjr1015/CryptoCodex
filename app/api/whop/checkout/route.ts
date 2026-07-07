@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
   try {
     const checkout = await createWhopCheckout({
       planId: process.env.WHOP_PLAN_ID!,
-      email: user.email!,
       redirectUrl,
       metadata: {
         supabase_uid: user.id,
