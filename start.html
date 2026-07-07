@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoCodex — Learn to Trade Crypto with Precision</title>
+    <meta name="description" content="Master crypto trading from first principles. Candlestick patterns, risk management, on-chain analytics, and DeFi — all in one structured curriculum. Start for $1.">
+    <meta property="og:title" content="CryptoCodex — Learn to Trade Crypto with Precision">
+    <meta property="og:description" content="48 lessons. 12 modules. 30+ chart patterns. Structured crypto trading education — start for $1.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cryptocodexsystems.com/start">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CryptoCodex — Learn to Trade Crypto with Precision">
+    <meta name="twitter:description" content="Stop guessing. Learn crypto trading from first principles. $1 first month.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230f1117'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%2300d4aa'%3E₿%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --bg-2: #0f1117;
+            --bg-3: #141820;
+            --border: #1e2433;
+            --border-light: #252d3d;
+            --text: #e8eaf0;
+            --text-muted: #8892a4;
+            --text-faint: #4a5568;
+            --green: #00d4aa;
+            --green-dim: rgba(0,212,170,0.12);
+            --green-border: rgba(0,212,170,0.25);
+            --red: #ff4757;
+            --gold: #f0a500;
+            --blue: #3b82f6;
+            --radius: 6px;
+            --radius-lg: 12px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            border-bottom: 1px solid var(--border);
+            background: rgba(11,14,20,0.95);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-3);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            color: var(--green);
+        }
+        .logo-name {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        .logo-name span { color: var(--green); }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: var(--radius);
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .btn-primary {
+            background: var(--green);
+            color: #0b0e14;
+            padding: 10px 24px;
+        }
+        .btn-primary:hover { background: #00bfa0; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,212,170,0.3); }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+        }
+        .btn-ghost:hover { border-color: var(--border-light); color: var(--text); }
+        .btn-lg { padding: 14px 36px; font-size: 15px; }
+
+        /* Ticker tape */
+        .ticker {
+            background: var(--bg-2);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            padding: 8px 0;
+        }
+        .ticker-track {
+            display: flex;
+            gap: 40px;
+            animation: ticker 30s linear infinite;
+            width: max-content;
+        }
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        .ticker-pair { color: var(--text-muted); }
+        .ticker-price { color: var(--text); font-weight: 700; }
+        .ticker-change.up { color: var(--green); }
+        .ticker-change.down { color: var(--red); }
+        @keyframes ticker {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Hero */
+        .hero {
+            padding: 96px 32px 80px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, rgba(0,212,170,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green-dim);
+            border: 1px solid var(--green-border);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--green);
+            letter-spacing: 0.02em;
+            margin-bottom: 28px;
+        }
+        .hero-title {
+            font-size: clamp(42px, 7vw, 72px);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        .hero-title .accent { color: var(--green); }
+        .hero-sub {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 560px;
+            margin: 0 auto 40px;
+        }
+        .hero-cta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .hero-note {
+            font-size: 12px;
+            color: var(--text-faint);
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+            padding: 40px 32px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-2);
+            flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Section */
+        .section {
+            padding: 80px 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 14px;
+        }
+        .section-title {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        .section-sub {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 560px;
+            margin-bottom: 56px;
+        }
+
+        /* Curriculum preview */
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .module-card {
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .module-card.active {
+            border-color: var(--green-border);
+            background: linear-gradient(135deg, var(--bg-2), rgba(0,212,170,0.04));
+        }
+        .module-card.locked { opacity: 0.5; }
+        .module-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--text-faint);
+            margin-bottom: 10px;
+        }
+        .module-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+        .module-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+        .module-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .badge-free { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+        .badge-member { background: rgba(240,165,0,0.12); color: var(--gold); border: 1px solid rgba(240,165,0,0.25); }
+        .badge-lock { background: rgba(255,255,255,0.04); color: var(--text-faint); border: 1px solid var(--border); }
+
+        /* What you learn */
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .learn-card {
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: border-color 0.2s;
+        }
+        .learn-card:hover { border-color: var(--border-light); }
+        .learn-icon {
+            font-size: 28px;
+            margin-bottom: 14px;
+            display: block;
+        }
+        .learn-title {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .learn-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* Divider */
+        .divider { height: 1px; background: var(--border); }
+
+        /* Pricing */
+        .pricing-section {
+            padding: 80px 32px;
+            text-align: center;
+        }
+        .pricing-card {
+            background: var(--bg-2);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--green), transparent);
+        }
+        .pricing-price {
+            font-family: 'Space Mono', monospace;
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 4px;
+        }
+        .pricing-price sup {
+            font-size: 28px;
+            vertical-align: super;
+            line-height: 0;
+        }
+        .pricing-price span {
+            font-size: 20px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .pricing-trial {
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 600;
+            margin-bottom: 32px;
+            padding: 8px 16px;
+            background: var(--green-dim);
+            border-radius: var(--radius);
+            display: inline-block;
+        }
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 36px;
+        }
+        .pricing-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            line-height: 1.5;
+        }
+        .pricing-features li:last-child { border-bottom: none; }
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .pricing-note {
+            font-size: 12px;
+            color: var(--text-faint);
+            margin-top: 16px;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: rgba(255,71,87,0.06);
+            border: 1px solid rgba(255,71,87,0.15);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 680px;
+            margin: 0 auto 48px;
+            text-align: center;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 32px;
+            text-align: center;
+            background: var(--bg-2);
+        }
+        .footer-text { font-size: 11px; color: var(--text-faint); line-height: 1.8; }
+        .footer-text a { color: var(--text-faint); text-decoration: none; margin: 0 8px; }
+        .footer-text a:hover { color: var(--text-muted); }
+
+        @media (max-width: 700px) {
+            .header-inner { padding: 14px 20px; }
+            .hero { padding: 64px 20px 56px; }
+            .section { padding: 56px 20px; }
+            .modules { grid-template-columns: 1fr; }
+            .learn-grid { grid-template-columns: 1fr; }
+            .stats { gap: 28px; padding: 32px 20px; }
+            .hero-cta { flex-direction: column; align-items: stretch; }
+            .hero-cta .btn { text-align: center; }
+            .pricing-card { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TICKER TAPE -->
+    <div class="ticker">
+        <div class="ticker-track">
+            <!-- First set -->
+            <div class="ticker-item"><span class="ticker-pair">BTC/USD</span><span class="ticker-price">67,420.50</span><span class="ticker-change up">▲ 2.34%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ETH/USD</span><span class="ticker-price">3,512.80</span><span class="ticker-change up">▲ 1.87%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">SOL/USD</span><span class="ticker-price">182.40</span><span class="ticker-change down">▼ 0.92%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">BNB/USD</span><span class="ticker-price">598.20</span><span class="ticker-change up">▲ 0.64%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">XRP/USD</span><span class="ticker-price">0.5840</span><span class="ticker-change down">▼ 1.23%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ADA/USD</span><span class="ticker-price">0.4920</span><span class="ticker-change up">▲ 3.11%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">AVAX/USD</span><span class="ticker-price">36.80</span><span class="ticker-change down">▼ 0.45%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">DOGE/USD</span><span class="ticker-price">0.1640</span><span class="ticker-change up">▲ 5.22%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">LINK/USD</span><span class="ticker-price">14.20</span><span class="ticker-change up">▲ 1.09%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">MATIC/USD</span><span class="ticker-price">0.8540</span><span class="ticker-change down">▼ 2.17%</span></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="ticker-item"><span class="ticker-pair">BTC/USD</span><span class="ticker-price">67,420.50</span><span class="ticker-change up">▲ 2.34%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ETH/USD</span><span class="ticker-price">3,512.80</span><span class="ticker-change up">▲ 1.87%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">SOL/USD</span><span class="ticker-price">182.40</span><span class="ticker-change down">▼ 0.92%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">BNB/USD</span><span class="ticker-price">598.20</span><span class="ticker-change up">▲ 0.64%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">XRP/USD</span><span class="ticker-price">0.5840</span><span class="ticker-change down">▼ 1.23%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ADA/USD</span><span class="ticker-price">0.4920</span><span class="ticker-change up">▲ 3.11%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">AVAX/USD</span><span class="ticker-price">36.80</span><span class="ticker-change down">▼ 0.45%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">DOGE/USD</span><span class="ticker-price">0.1640</span><span class="ticker-change up">▲ 5.22%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">LINK/USD</span><span class="ticker-price">14.20</span><span class="ticker-change up">▲ 1.09%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">MATIC/USD</span><span class="ticker-price">0.8540</span><span class="ticker-change down">▼ 2.17%</span></div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon">₿</div>
+                <span class="logo-name">Crypto<span>Codex</span></span>
+            </a>
+            <div style="display:flex;gap:10px;align-items:center;">
+                <a href="/login" class="btn btn-ghost">Sign In</a>
+                <a href="/signup" class="btn btn-primary">Join — $1 First Month →</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span>📺</span> As seen on YouTube — Welcome
+        </div>
+        <h1 class="hero-title">Trade with<br><span class="accent">precision</span> &amp; conviction.</h1>
+        <p class="hero-sub">Master crypto trading from first principles. Charts, patterns, risk management, and market psychology — all in one structured curriculum.</p>
+        <div class="hero-cta">
+            <a href="/signup" class="btn btn-primary btn-lg">Join — $1 First Month →</a>
+            <a href="/" class="btn btn-ghost btn-lg">Explore the Curriculum</a>
+        </div>
+        <p class="hero-note">$1 first month · Then $25/month · Cancel anytime</p>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-num">48</div>
+            <div class="stat-label">Lessons</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">12</div>
+            <div class="stat-label">Modules</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">30+</div>
+            <div class="stat-label">Chart Patterns</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">200+</div>
+            <div class="stat-label">Terms Defined</div>
+        </div>
+    </div>
+
+    <!-- CURRICULUM PREVIEW -->
+    <section class="section">
+        <p class="section-label">The Curriculum</p>
+        <h2 class="section-title">A structured path from<br>zero to trader.</h2>
+        <p class="section-sub">Each module builds on the last. Complete in order. Estimated 20–30 min per module.</p>
+        <div class="modules">
+            <div class="module-card active">
+                <div class="module-num">Module 01</div>
+                <div class="module-title">Crypto Fundamentals</div>
+                <div class="module-desc">Bitcoin, blockchain, wallets, keys, and how to buy your first crypto safely.</div>
+                <span class="module-badge badge-free">Free</span>
+            </div>
+            <div class="module-card active">
+                <div class="module-num">Module 02</div>
+                <div class="module-title">Market Structure</div>
+                <div class="module-desc">Order books, market vs. limit orders, bid-ask spread, and exchange fees explained.</div>
+                <span class="module-badge badge-free">Free</span>
+            </div>
+            <div class="module-card">
+                <div class="module-num">Module 03</div>
+                <div class="module-title">Technical Analysis</div>
+                <div class="module-desc">Candlestick charts, support & resistance, trend lines, and volume analysis.</div>
+                <span class="module-badge badge-member">Member</span>
+            </div>
+            <div class="module-card">
+                <div class="module-num">Module 04</div>
+                <div class="module-title">Candlestick Patterns</div>
+                <div class="module-desc">30+ patterns that appear before major moves — bullish, bearish, and neutral setups.</div>
+                <span class="module-badge badge-member">Member</span>
+            </div>
+            <div class="module-card">
+                <div class="module-num">Module 05</div>
+                <div class="module-title">Indicators & Oscillators</div>
+                <div class="module-desc">RSI, MACD, Bollinger Bands, and how to combine them without overfitting.</div>
+                <span class="module-badge badge-member">Member</span>
+            </div>
+            <div class="module-card">
+                <div class="module-num">Module 06</div>
+                <div class="module-title">Risk Management</div>
+                <div class="module-desc">Position sizing, stop-loss placement, risk/reward ratios, and portfolio allocation.</div>
+                <span class="module-badge badge-member">Member</span>
+            </div>
+            <div class="module-card locked">
+                <div class="module-num">Module 07</div>
+                <div class="module-title">Trading Psychology</div>
+                <div class="module-desc">FOMO, revenge trading, overconfidence — the mental game that separates winners.</div>
+                <span class="module-badge badge-lock">Locked</span>
+            </div>
+            <div class="module-card locked">
+                <div class="module-num">Module 08</div>
+                <div class="module-title">DeFi & On-Chain Analysis</div>
+                <div class="module-desc">Whale wallets, exchange flows, MVRV ratio, and on-chain signals that precede moves.</div>
+                <span class="module-badge badge-lock">Locked</span>
+            </div>
+            <div class="module-card locked">
+                <div class="module-num">Modules 09–12</div>
+                <div class="module-title">Advanced Strategies</div>
+                <div class="module-desc">Swing trading, scalping, derivatives, and building a repeatable trading system.</div>
+                <span class="module-badge badge-lock">Locked</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- WHAT YOU'LL LEARN -->
+    <section class="section">
+        <p class="section-label">What You'll Master</p>
+        <h2 class="section-title">Everything the self-taught<br>trader wishes they knew first.</h2>
+        <p class="section-sub">Most people lose money trading because they skip the fundamentals. CryptoCodex fixes that.</p>
+        <div class="learn-grid">
+            <div class="learn-card">
+                <span class="learn-icon">📊</span>
+                <div class="learn-title">Read Any Chart</div>
+                <p class="learn-desc">Candlesticks, volume, support & resistance, trend lines, and multi-timeframe analysis — the foundation every serious trader needs.</p>
+            </div>
+            <div class="learn-card">
+                <span class="learn-icon">🎯</span>
+                <div class="learn-title">Spot High-Probability Setups</div>
+                <p class="learn-desc">30+ chart patterns with clear entry, stop, and target rules. Patterns don't predict — they define scenarios with defined risk.</p>
+            </div>
+            <div class="learn-card">
+                <span class="learn-icon">🛡️</span>
+                <div class="learn-title">Manage Risk Like a Pro</div>
+                <p class="learn-desc">Position sizing, stop-loss placement, and portfolio allocation. The only skill that keeps you in the game long enough to get good.</p>
+            </div>
+            <div class="learn-card">
+                <span class="learn-icon">🧠</span>
+                <div class="learn-title">Control Your Psychology</div>
+                <p class="learn-desc">FOMO, revenge trading, loss aversion — the mental patterns that destroy accounts. Learn to trade the plan, not the emotion.</p>
+            </div>
+            <div class="learn-card">
+                <span class="learn-icon">⛓️</span>
+                <div class="learn-title">On-Chain Analytics</div>
+                <p class="learn-desc">Blockchain data is public. Whale flows, exchange inflows, MVRV ratio — signals most traders never look at that give you real edge.</p>
+            </div>
+            <div class="learn-card">
+                <span class="learn-icon">🔄</span>
+                <div class="learn-title">Understand DeFi</div>
+                <p class="learn-desc">AMMs, liquidity pools, impermanent loss, and DEX mechanics. The on-chain world is where the next decade of opportunity lives.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- PRICING -->
+    <section class="pricing-section">
+        <p class="section-label" style="text-align:center;">Pricing</p>
+        <h2 class="section-title" style="text-align:center;max-width:480px;margin:0 auto 16px;">Start for $1.<br>Cancel anytime.</h2>
+        <p style="font-size:16px;color:var(--text-muted);text-align:center;margin-bottom:48px;">No fluff. No filler. Just the curriculum, the tools, and the knowledge.</p>
+
+        <div class="pricing-card">
+            <div class="pricing-price"><sup>$</sup>29<span>/mo</span></div>
+            <div class="pricing-trial">First month just $1 — no risk</div>
+            <ul class="pricing-features">
+                <li>Full access to all 12 modules & 48 lessons</li>
+                <li>30+ candlestick pattern library with trade rules</li>
+                <li>200+ term glossary with practical context</li>
+                <li>Risk management calculator & tools</li>
+                <li>On-chain analytics guides</li>
+                <li>DeFi & derivatives modules</li>
+                <li>New content added regularly</li>
+            </ul>
+            <a href="/signup" class="btn btn-primary" style="width:100%;padding:16px;font-size:15px;">Join Now — $1 First Month →</a>
+            <p class="pricing-note">No contracts. Cancel anytime from your account settings.</p>
+        </div>
+
+        <div class="disclaimer" style="margin-top:40px;">
+            ⚠ This platform is for educational purposes only. Nothing here constitutes financial advice. Cryptocurrency trading involves substantial risk of loss. Never invest more than you can afford to lose. Past performance does not guarantee future results.
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p class="footer-text">© 2025 CryptoCodex · Educational use only · Powered by CryptoCodex Systems</p>
+        <p class="footer-text" style="margin-top:8px;">
+            <a href="/terms">Terms of Service</a>·
+            <a href="/privacy">Privacy Policy</a>·
+            <a href="mailto:support@cryptocodexsystems.com">Contact</a>
+        </p>
+    </footer>
+
+</body>
+</html>
