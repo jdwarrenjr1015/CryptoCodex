@@ -564,32 +564,32 @@ export default function Home() {
         <div className="tool-card" tabIndex={0}>
           <div className="tool-name">TradingView</div>
           <div className="tool-desc">The industry standard for charting. Advanced indicators, multi-layout views, alerts, and a massive community of published ideas.</div>
-          <a href="#" className="tool-link" tabIndex={0}>Learn Setup →</a>
+          <a href="https://www.tradingview.com/support/solutions/43000521013-how-to-use-tradingview/" target="_blank" rel="noopener noreferrer" className="tool-link" tabIndex={0}>Learn Setup →</a>
         </div>
         <div className="tool-card" tabIndex={0}>
           <div className="tool-name">CoinGecko</div>
           <div className="tool-desc">Comprehensive market data: price, volume, market cap, fully-diluted valuation, and token supply metrics for thousands of assets.</div>
-          <a href="#" className="tool-link" tabIndex={0}>Explore Data →</a>
+          <a href="https://www.coingecko.com" target="_blank" rel="noopener noreferrer" className="tool-link" tabIndex={0}>Explore Data →</a>
         </div>
         <div className="tool-card" tabIndex={0}>
           <div className="tool-name">Glassnode</div>
           <div className="tool-desc">On-chain analytics platform. Track whale movements, exchange inflows/outflows, MVRV ratio, SOPR, and realized price.</div>
-          <a href="#" className="tool-link" tabIndex={0}>On-Chain Guide →</a>
+          <a href="https://glassnode.com" target="_blank" rel="noopener noreferrer" className="tool-link" tabIndex={0}>On-Chain Guide →</a>
         </div>
         <div className="tool-card" tabIndex={0}>
           <div className="tool-name">Etherscan</div>
           <div className="tool-desc">The Ethereum block explorer. Trace any transaction, verify smart contracts, view wallet history, and track gas prices in real time.</div>
-          <a href="#" className="tool-link" tabIndex={0}>Read Transactions →</a>
+          <a href="https://etherscan.io" target="_blank" rel="noopener noreferrer" className="tool-link" tabIndex={0}>Read Transactions →</a>
         </div>
         <div className="tool-card" tabIndex={0}>
           <div className="tool-name">DeFiLlama</div>
           <div className="tool-desc">Total value locked (TVL) across all DeFi protocols. Essential for understanding capital flows between chains and finding yield opportunities.</div>
-          <a href="#" className="tool-link" tabIndex={0}>Track TVL →</a>
+          <a href="https://defillama.com" target="_blank" rel="noopener noreferrer" className="tool-link" tabIndex={0}>Track TVL →</a>
         </div>
         <div className="tool-card" tabIndex={0}>
           <div className="tool-name">Fear & Greed</div>
           <div className="tool-desc">The Crypto Fear & Greed Index aggregates volatility, momentum, social sentiment, and dominance into a single market psychology score.</div>
-          <a href="#" className="tool-link" tabIndex={0}>Check Sentiment →</a>
+          <a href="https://alternative.me/crypto/fear-and-greed-index/" target="_blank" rel="noopener noreferrer" className="tool-link" tabIndex={0}>Check Sentiment →</a>
         </div>
       </div>
     </div>
@@ -622,7 +622,7 @@ export default function Home() {
         <li><a href="#learn">Curriculum</a></li>
         <li><a href="#tools">Tools</a></li>
       </ul>
-      <div className="footer-copy">© 2025 CryptoCodex. Educational use only.</div>
+      <div className="footer-copy">© 2026 CryptoCodex. Educational use only.</div>
     </div>
     <div className="footer-inner">
       <p className="footer-disc">⚠ Disclaimer: This platform is for educational purposes only. Nothing here constitutes financial advice. Cryptocurrency trading involves substantial risk of loss. Never invest more than you can afford to lose. Past performance does not guarantee future results.</p>

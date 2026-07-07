@@ -31,11 +31,10 @@ export default function SignupPage() {
       return
     }
 
-    // Redirect to Stripe checkout
-    const res = await fetch('/api/stripe/checkout', {
+    // Redirect to Whop checkout
+    const res = await fetch('/api/whop/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: data.user?.id, email }),
     })
     const { url } = await res.json()
     if (url) window.location.href = url

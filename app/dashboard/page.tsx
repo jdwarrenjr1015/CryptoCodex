@@ -8,7 +8,7 @@ export default async function DashboardPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('discord_invite')
+    .select('whop_membership_id')
     .eq('id', user.id)
     .single()
 
@@ -110,9 +110,9 @@ export default async function DashboardPage() {
 
           <div style={{background:'#111318',padding:'32px'}}>
             <div style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:'10px',letterSpacing:'0.14em',textTransform:'uppercase',color:'rgba(240,235,224,0.4)',marginBottom:'12px'}}>Discord Community</div>
-            {profile?.discord_invite ? (
+            {sub?.status === 'active' ? (
               <a
-                href={profile.discord_invite}
+                href={process.env.NEXT_PUBLIC_DISCORD_URL ?? '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -134,7 +134,7 @@ export default async function DashboardPage() {
               </a>
             ) : (
               <div style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:'12px',color:'rgba(240,235,224,0.4)'}}>
-                Invite generates after first payment.
+                Discord access unlocks with an active membership.
               </div>
             )}
           </div>
