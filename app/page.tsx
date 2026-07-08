@@ -621,6 +621,7 @@ export default function Home() {
         <li><a href="#glossary">Glossary</a></li>
         <li><a href="#learn">Curriculum</a></li>
         <li><a href="#tools">Tools</a></li>
+        <li><a href="mailto:support@cryptocodexsystems.com">Support</a></li>
       </ul>
       <div className="footer-copy">© 2026 CryptoCodex. Educational use only.</div>
     </div>

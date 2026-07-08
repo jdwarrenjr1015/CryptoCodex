@@ -156,6 +156,16 @@ export default function SignupPage() {
             }}>{error}</p>
           )}
 
+          <p style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: '10px',
+            lineHeight: 1.7,
+            color: 'rgba(240,235,224,0.3)',
+            marginBottom: '16px',
+          }}>
+            ⚠ For educational purposes only. Not financial advice. Cryptocurrency trading involves substantial risk of loss.
+          </p>
+
           <button
             type="submit"
             disabled={loading}
