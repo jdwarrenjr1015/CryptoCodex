@@ -87,7 +87,8 @@ Click **Run**.
 | `app/dashboard/page.tsx` | Discord shows static link (Whop manages access) |
 | `supabase/migrations/20260706_whop_migration.sql` | Adds whop columns to profiles + subscriptions |
 
-### Old Stripe files (safe to delete after testing):
-- `app/api/stripe/checkout/route.ts`
-- `app/api/stripe/webhook/route.ts`
-- `lib/stripe.ts`
+### Old Stripe files
+Deleted 2026-07-08 after end-to-end Whop testing confirmed signup → checkout →
+webhook → dashboard → Discord access all work, including membership
+deactivation. The `stripe` npm dependency and commented-out `STRIPE_*` vars
+in `.env.local` were removed too.
