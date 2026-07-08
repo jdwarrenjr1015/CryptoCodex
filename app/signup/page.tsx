@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import Link from 'next/link'
+import { getAttribution } from '@/lib/attribution'
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -35,6 +36,7 @@ export default function SignupPage() {
     const res = await fetch('/api/whop/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ attribution: getAttribution() }),
     })
     const { url } = await res.json()
     if (url) window.location.href = url

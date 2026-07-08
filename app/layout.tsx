@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import AttributionCapture from "./attribution-capture";
 
 export const metadata: Metadata = {
   title: "CryptoCodex — Learn to Trade with Precision",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230f1117'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%2300d4aa'%3E%E2%82%BF%3C/text%3E%3C/svg%3E" />
       </head>
       <body>
+        <AttributionCapture />
         {children}
       </body>
     </html>
