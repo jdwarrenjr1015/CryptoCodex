@@ -1,5 +1,13 @@
+import type { Metadata } from 'next'
 import { createSupabaseServerClient } from '@/lib/supabase'
 import { redirect } from 'next/navigation'
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default async function DashboardPage() {
   const supabase = await createSupabaseServerClient()

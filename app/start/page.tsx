@@ -5,6 +5,13 @@ export const metadata: Metadata = {
   title: 'CryptoCodex — Learn to Trade Crypto with Precision',
   description:
     'Master crypto trading from first principles. Candlestick patterns, risk management, on-chain analytics, and DeFi — all in one structured curriculum. Start for $1.',
+  // This page mirrors the homepage and exists only as a landing page for paid
+  // traffic (UTM capture) — keep it out of organic search to avoid duplicate
+  // content competing with "/".
+  robots: {
+    index: false,
+    follow: true,
+  },
   openGraph: {
     title: 'CryptoCodex — Learn to Trade Crypto with Precision',
     description:

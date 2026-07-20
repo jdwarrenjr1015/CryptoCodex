@@ -3,8 +3,12 @@ import "./globals.css";
 import AttributionCapture from "./attribution-capture";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cryptocodexsystems.com"),
   title: "CryptoCodex — Learn to Trade with Precision",
   description: "Master crypto trading with precision. Learn candlestick patterns, on-chain analytics, risk management, and DeFi fundamentals.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "CryptoCodex — Learn to Trade with Precision",
     description: "48 lessons. 12 modules. 30+ chart patterns. Structured crypto trading curriculum — $1 first month.",
